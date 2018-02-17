@@ -13,6 +13,8 @@ namespace Service.Repositories.Interfaces
 
         Task<UserModel> GetUserByLogin(string login, string password);
 
-        Task<bool> AddUser(string login, string password);
+        Task<bool> AddUser(string login, string password, bool isConsultant);
+
+        Task<bool> RemoveAll();
     }
 }

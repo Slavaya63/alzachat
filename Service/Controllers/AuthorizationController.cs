@@ -50,7 +50,7 @@ namespace Service.Controllers
                 return Json(new { access_token = jwt });
             }
 
-            return null;
+            return new JsonResult(null){ StatusCode = 404};
         }
 
         [HttpPost("registration")]
@@ -60,7 +60,7 @@ namespace Service.Controllers
 
             if (user == null)
             {
-                var result = await _usersRepository.AddUser(model.Name, model.Password);
+                var result = await _usersRepository.AddUser(model.Name, model.Password, false);
                 if (result)
                     return new OkResult();
                 else

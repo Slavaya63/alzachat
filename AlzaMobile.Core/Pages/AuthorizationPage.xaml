@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<d:MvxContentPage 
+    x:TypeArguments="viewModels:AuthorizationViewModel"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:controls="clr-namespace:AlzaMobile.Core.Controls"
+    xmlns:d="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+    xmlns:viewModels="clr-namespace:AlzaMobile.Core.ViewModels;assembly=AlzaMobile.Core"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="AlzaMobile.Core.Pages.AuthorizationPage"
+    BackgroundColor="#5C6BC0">
+	<ContentPage.Content>
+        <StackLayout
+            Orientation="Vertical">
+            <ffimageloading:CachedImage HorizontalOptions="Center" Source="ic_cat" />
+            <controls:RoundedEntry 
+                Placeholder="Login"
+                Text="{Binding Login}"
+                WidthRequest="200"
+                HorizontalOptions="CenterAndExpand"
+                Margin="20,0,20,0"/>
+            <controls:RoundedEntry 
+                IsPassword="true"
+                Text="{Binding Password}"
+                Placeholder="Password" 
+                WidthRequest="200"
+                HorizontalOptions="CenterAndExpand"
+                Margin="20,0,20,0"/>
+            <Button
+                WidthRequest="200"
+                Text="Enter"
+                HorizontalOptions="Center"
+                TextColor="Black"
+                Command="{Binding LoginCommand}"
+                BackgroundColor="White"/>
+        </StackLayout>
+	</ContentPage.Content>
+</d:MvxContentPage>

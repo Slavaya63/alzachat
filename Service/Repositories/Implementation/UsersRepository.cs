@@ -41,13 +41,20 @@ namespace Service.Repositories.Implementation
                            .ToListAsync();
         }
 
-        public async Task<bool> AddUser(string login, string password)
+        public async Task<bool> AddUser(string login, string password, bool isConsultant)
         {
             await _context.UserModel.InsertOneAsync(new UserModel
                                                         { 
                                                             Profile = new ProfileModel{ Login = login, Password = password},
-                                                            ProfileType = "client"
+                                                            ProfileType = isConsultant ? "consultant" : "client"
                                                         });
+
+            return true;
+        }
+
+        public async Task<bool> RemoveAll()
+        {
+            await _context.UserModel.DeleteManyAsync(item => true);
 
             return true;
         }

@@ -65,7 +65,6 @@ namespace Service
             app.UseSignalR(routes => 
             {
                 routes.MapHub<ChatHub>("chat");
-                routes.MapHub<RequestHub>("request");
             });
 
 

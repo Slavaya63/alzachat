@@ -1,25 +1,39 @@
 ﻿using System;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Service.Hubs
 {
     public class ChatHub : Hub
     {
-        public void Send(string groupName, string message)
+        public async void Send(string groupName, string message)
         {
-            //return Clients.All.InvokeAsync("Send", message);
-            Clients.Group(groupName).InvokeAsync("send", message);
+            await Clients.Group(groupName).InvokeAsync("new_message", message);
         }
 
-        public void JoinGroup(string groupname)
+        public async void RequestForChat()
         {
-            Groups.AddAsync(Context.ConnectionId, groupname);
+            await Clients.Group("consultants").InvokeAsync("request_for_chat", Context.ConnectionId);
         }
 
-        public void LeaveGroup(string groupname)
+        public async void AcceptForChat(string clientConnectionId)
         {
-            Groups.RemoveAsync(Context.ConnectionId, groupname);
+            // generate name of group
+            var group = Guid.NewGuid().ToString();
+
+            // add users to group
+            await this.Groups.AddAsync(Context.ConnectionId, group);
+            await this.Groups.AddAsync(clientConnectionId, group);
+
+            // notify users
+            await Clients.Client(Context.ConnectionId).InvokeAsync("on_connect_to_group", group);
+            await Clients.Client(clientConnectionId).InvokeAsync("on_connect_to_group", group);
+        }
+
+        public async void JoinToConsultants()
+        {
+            await this.Groups.AddAsync(Context.ConnectionId, "consultants");
         }
     }
 }

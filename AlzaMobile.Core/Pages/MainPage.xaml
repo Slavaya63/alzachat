@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<d:MvxContentPage  
+    x:TypeArguments="viewModels:MainViewModel"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    xmlns:d="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+    xmlns:viewModels="clr-namespace:AlzaMobile.Core.ViewModels;assembly=AlzaMobile.Core"
+    xmlns:iconize="clr-namespace:FormsPlugin.Iconize;assembly=FormsPlugin.Iconize"
+    xmlns:converters="clr-namespace:AlzaMobile.Core.Converters"
+    x:Class="AlzaMobile.Core.Pages.MainPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:InvertedBoolConverter x:Key="invertedBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.ToolbarItems>
+        <iconize:IconToolbarItem  IconColor="Red" Icon="icons-menu-20" Command="{Binding InfoCommand}"/>
+    </ContentPage.ToolbarItems>
+    
+	<ContentPage.Content>
+        <Grid>
+
+            <!--chat-->
+            <StackLayout>
+
+            </StackLayout>
+
+            <!--stub-->
+            <StackLayout
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                IsVisible="{Binding IsHaveChat, Converter={StaticResource invertedBoolConverter}}">
+                <Label 
+                    Text="No chats"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand"/>
+            </StackLayout>
+        </Grid>
+	</ContentPage.Content>
+</d:MvxContentPage >
