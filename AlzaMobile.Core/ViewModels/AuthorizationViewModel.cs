@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Acr.UserDialogs;
 using AlzaMobile.Core.Repositories.Interfaces;
+using MvvmCross.Core.Navigation;
 using MvvmCross.Core.ViewModels;
 
 namespace AlzaMobile.Core.ViewModels
@@ -40,10 +41,13 @@ namespace AlzaMobile.Core.ViewModels
 
         private async void DoLogin()
         {
-            HttpResponseMessage result = await _loginRepository.Login(Login, Password);
+            var result = await _loginRepository.Login(Login, Password);
 
-            if (result != null && result.IsSuccessStatusCode)
+            if (result != null)
             {
+                Settings.CurrentToken = result.Token;
+                Settings.ProfileType = result.ProfileType;
+
                 ShowViewModel<MainViewModel>();
             }
             else

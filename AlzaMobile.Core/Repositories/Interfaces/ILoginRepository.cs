@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using AlzaMobile.Models;
 
 namespace AlzaMobile.Core.Repositories.Interfaces
 {
     public interface ILoginRepository
     {
-        Task<System.Net.Http.HttpResponseMessage> Login(string login, string password);
+        Task<LoginModel> Login(string login, string password);
     }
 }

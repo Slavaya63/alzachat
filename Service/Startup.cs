@@ -62,6 +62,7 @@ namespace Service
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseWebSockets();
             app.UseSignalR(routes => 
             {
                 routes.MapHub<ChatHub>("chat");

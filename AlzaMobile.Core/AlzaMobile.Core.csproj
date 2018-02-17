@@ -31,4 +31,7 @@
     <Folder Include="Repositories\Implementation\" />
     <Folder Include="Converters\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlzaMobile.Models\AlzaMobile.Models.csproj" />
+  </ItemGroup>
 </Project>

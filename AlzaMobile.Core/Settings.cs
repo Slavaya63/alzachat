@@ -16,6 +16,9 @@ namespace AlzaMobile.Core
         private const string CurrentTokenKey = "current_token";
         private static readonly string CurrentTokenDefault = string.Empty;
 
+        private const string ProfileTypeKey = "profile_type";
+        private static readonly string ProfileTypeDefault = string.Empty;
+
         #endregion
 
 
@@ -29,6 +32,12 @@ namespace AlzaMobile.Core
         {
             get => AppSettings.GetValueOrDefault(CurrentTokenKey, CurrentTokenDefault);
             set => AppSettings.AddOrUpdateValue(CurrentTokenKey, value);
+        }
+
+        public static string ProfileType
+        {
+            get => AppSettings.GetValueOrDefault(ProfileTypeKey, ProfileTypeDefault);
+            set => AppSettings.AddOrUpdateValue(ProfileTypeKey, value);
         }
     }
 }

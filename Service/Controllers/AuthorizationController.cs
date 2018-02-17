@@ -47,7 +47,7 @@ namespace Service.Controllers
                         signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
                 var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
-                return Json(new { access_token = jwt });
+                return Json(new { access_token = encodedJwt, profile_type = user.ProfileType });
             }
 
             return new JsonResult(null){ StatusCode = 404};

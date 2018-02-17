@@ -9,16 +9,19 @@ namespace Service.Hubs
     {
         public async void Send(string groupName, string message)
         {
+            Console.WriteLine($"Send: group={groupName}; message={message}");
             await Clients.Group(groupName).InvokeAsync("new_message", message);
         }
 
         public async void RequestForChat()
         {
+            Console.WriteLine($"RequestForChat: client id = {Context.ConnectionId}");
             await Clients.Group("consultants").InvokeAsync("request_for_chat", Context.ConnectionId);
         }
 
         public async void AcceptForChat(string clientConnectionId)
         {
+            Console.WriteLine($"AcceptForChat: context id = {Context.ConnectionId}; client id = {clientConnectionId}");
             // generate name of group
             var group = Guid.NewGuid().ToString();
 
@@ -33,6 +36,7 @@ namespace Service.Hubs
 
         public async void JoinToConsultants()
         {
+            Console.WriteLine($"JoinToConsultants: context id = {Context.ConnectionId}");
             await this.Groups.AddAsync(Context.ConnectionId, "consultants");
         }
     }

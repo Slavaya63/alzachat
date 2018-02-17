@@ -1,6 +1,7 @@
 ﻿using MvvmCross.Core.ViewModels;
 using System;
 using Microsoft.AspNetCore.SignalR.Client;
+using System.Threading.Tasks;
 
 namespace AlzaMobile.Core.ViewModels
 {
@@ -16,21 +17,27 @@ namespace AlzaMobile.Core.ViewModels
             set {SetProperty(ref _title, value);}
         }
 
-        protected async void StartChatHub()
+        protected async Task StartChatHub()
         {
             try
             {
-                HubConnection chatHub = new Microsoft.AspNetCore.SignalR.Client
+                ChatHub = new Microsoft.AspNetCore.SignalR.Client
                                      .HubConnectionBuilder()
                                      .WithUrl("http://127.0.0.1:5000/chat")
+                                     .WithConsoleLogger()
                                      .Build();
 
-                await chatHub.StartAsync();
+                BeforeStartChatHub();
+
+                await ChatHub.StartAsync();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
         }
+
+        protected virtual void BeforeStartChatHub()
+        {   }
     }
 }

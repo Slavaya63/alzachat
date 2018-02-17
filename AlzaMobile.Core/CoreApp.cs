@@ -30,8 +30,10 @@ namespace AlzaMobile.Core
     {
         public void Start(object hint = null)
         {
-			//ShowViewModel<AuthorizationViewModel>();
-            ShowViewModel<MainViewModel>();
+            if (string.IsNullOrEmpty(Settings.CurrentToken))
+                ShowViewModel<AuthorizationViewModel>();
+            else
+                ShowViewModel<MainViewModel>();
         }
     }
 }

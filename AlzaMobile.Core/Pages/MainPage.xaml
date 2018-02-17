@@ -11,11 +11,18 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:InvertedBoolConverter x:Key="invertedBoolConverter" />
+            <converters:StringEqualsConverter x:Key="stringEqualsConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
-        <iconize:IconToolbarItem  IconColor="Red" Icon="icons-menu-20" Command="{Binding InfoCommand}"/>
+        <iconize:IconToolbarItem    IsVisible="{Binding ProfileType, Converter={StaticResource stringEqualsConverter}, ConverterParameter='client'}" 
+                                    IconColor="Red" 
+                                    Icon="icons-menu-20" 
+                                    Command="{Binding InfoCommand}"/>
+        <iconize:IconToolbarItem    IsVisible="{Binding ProfileType, Converter={StaticResource stringEqualsConverter}, ConverterParameter='consultant'}" 
+                                    Text="{Binding RequestCount}"
+                                    Command="{Binding InfoCommand}"/>
     </ContentPage.ToolbarItems>
     
 	<ContentPage.Content>
