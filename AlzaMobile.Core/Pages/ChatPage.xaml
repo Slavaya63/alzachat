@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<d:MvxContentPage 
+    x:TypeArguments="viewModels:ChatViewModel"
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Class="AlzaMobile.Core.Pages.ChatPage"
+    xmlns:models="clr-namespace:AlzaMobile.Core.Models"
+    xmlns:d="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+    xmlns:viewModels="clr-namespace:AlzaMobile.Core.ViewModels;assembly=AlzaMobile.Core">
+	<ContentPage.Content>
+        <StackLayout>
+            <ListView
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                SeparatorVisibility="Default"
+                SeparatorColor="White"
+                ItemsSource="{Binding Messages}"
+                HasUnevenRows="true">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout
+                                Orientation="Vertical">
+                                <Label
+                                    TextColor="Blue"
+                                    Margin="10,0,0,0"
+                                    Text="{Binding Name}"/>
+                                <Label
+                                    Margin="10,0,0,0"
+                                    Text="{Binding Message}"
+                                    FontSize="12"/>
+                                <Label
+                                    HorizontalOptions="End"
+                                    Margin="10,0,0,0"
+                                    Text="{Binding Date}"
+                                    FontSize="12"/>
+
+                                <StackLayout.Triggers>
+                                    <DataTrigger TargetType="StackLayout" Binding="{Binding Type}" Value="{x:Static models:MessageType.Incoming}">
+                                        <Setter Property="BackgroundColor" Value="#69F0AE"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="StackLayout" Binding="{Binding Type}" Value="{x:Static models:MessageType.Outgoing}">
+                                        <Setter Property="BackgroundColor" Value="#E8F5E9"/>
+                                    </DataTrigger>
+                                </StackLayout.Triggers>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <StackLayout
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="End"
+                Orientation="Horizontal">
+                <Editor 
+                    HorizontalOptions="FillAndExpand"
+                    Text="{Binding EditMessage}"
+                    BackgroundColor="#BDBDBD">
+                </Editor>
+                <Button
+                    BackgroundColor="Silver"
+                    Text="Send"
+                    Command="{Binding SendCommand}"
+                    WidthRequest="50"
+                    HorizontalOptions="End"/>
+            </StackLayout>
+        </StackLayout>
+	</ContentPage.Content>
+</d:MvxContentPage>

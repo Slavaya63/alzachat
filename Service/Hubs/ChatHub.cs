@@ -10,7 +10,7 @@ namespace Service.Hubs
         public async void Send(string groupName, string message)
         {
             Console.WriteLine($"Send: group={groupName}; message={message}");
-            await Clients.Group(groupName).InvokeAsync("new_message", message);
+            await Clients.Group(groupName).InvokeAsync("new_message", groupName, message);
         }
 
         public async void RequestForChat()
@@ -24,6 +24,8 @@ namespace Service.Hubs
             Console.WriteLine($"AcceptForChat: context id = {Context.ConnectionId}; client id = {clientConnectionId}");
             // generate name of group
             var group = Guid.NewGuid().ToString();
+
+            Console.WriteLine($"New group: {group}");
 
             // add users to group
             await this.Groups.AddAsync(Context.ConnectionId, group);

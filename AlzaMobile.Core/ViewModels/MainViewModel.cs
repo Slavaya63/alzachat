@@ -5,23 +5,39 @@ using Acr.UserDialogs;
 using Microsoft.AspNetCore.SignalR.Client;
 using MvvmCross.Core.ViewModels;
 using System.Linq;
+using System.Collections.ObjectModel;
+using MvvmCross.Plugins.Messenger;
+using AlzaMobile.Core.Messages;
 
 namespace AlzaMobile.Core.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
-        private bool _isHaveChat = false;
         private readonly IUserDialogs _userDialogs;
         private string _requestCount;
+        private IMvxMessenger _messenger;
+        private ObservableCollection<string> _openChats = new ObservableCollection<string>();
+        MvxSubscriptionToken onGroupToken;
+
+
 
         public string ProfileType { get { return Settings.ProfileType; } }
+
+        public ObservableCollection<string> OpenChats 
+        {
+            get { return _openChats; }
+            set 
+            {
+                SetProperty(ref _openChats, value); 
+                RaisePropertyChanged(nameof(IsHaveChat));
+            }
+        }
 
         private List<string> _clientsIds = new List<string>();
 
         public bool IsHaveChat
         {
-            get { return _isHaveChat; }
-            set { SetProperty(ref _isHaveChat, value); }
+            get { return _openChats.Any(); }
         }
 
         public string RequestCount
@@ -30,14 +46,23 @@ namespace AlzaMobile.Core.ViewModels
             set => SetProperty(ref _requestCount, value);
         }
 
-        public MainViewModel(IUserDialogs userDialogs)
+
+        public MainViewModel(IUserDialogs userDialogs, IMvxMessenger messenger)
         {
+            this._messenger = messenger;
             this._userDialogs = userDialogs;
+            OpenChats.CollectionChanged += (sender, e) => RaisePropertyChanged(nameof(IsHaveChat));
         }
 
         public async override System.Threading.Tasks.Task Initialize()
         {
             await base.StartChatHub();
+
+            onGroupToken = _messenger.SubscribeOnThreadPoolThread<ConnectToGroupMessage>(obj =>
+                         {
+                             //if (Settings.ProfileType == "client")
+                             OpenChats.Add(obj.Group);
+                         });
         }
 
         protected override void BeforeStartChatHub()
@@ -48,14 +73,16 @@ namespace AlzaMobile.Core.ViewModels
                 {
                     await ChatHub.SendAsync("JoinToConsultants");
                     ChatHub.On("request_for_chat", new Action<string>(OnRequestForChat));
-                    ChatHub.On("on_connect_to_group", new Action<string>(ConnectToGroup));
                 };
             }
         }
 
+
         private void OnRequestForChat(string connectionId)
         {
             _clientsIds.Add(connectionId);
+            _userDialogs.Toast("New request!");
+            //OpenChats.Add("New request!");
         }
 
         #region commands
@@ -93,18 +120,19 @@ namespace AlzaMobile.Core.ViewModels
             var dialog = _userDialogs.ActionSheet(config);
         }
 
+        public MvxCommand<string> SelectItemCommand => new MvxCommand<string>(DoSelectItem);
+
+        private void DoSelectItem(string arg)
+        {
+            ShowViewModel<ChatViewModel>(new Dictionary<string, string> { { "group_id", arg } });
+        }
+
         #endregion
 
         private async void MakeRequestForChat()
         {
             await ChatHub.SendAsync("RequestForChat");
-
-            ChatHub.On("on_connect_to_group", new Action<string>(ConnectToGroup));
         }
 
-        private void ConnectToGroup(string arg)
-        {
-
-        }
     }
 }

@@ -6,6 +6,7 @@ using AlzaMobile.Core.ViewModels;
 using MvvmCross.Core.ViewModels;
 using MvvmCross.Platform;
 using MvvmCross.Platform.IoC;
+using MvvmCross.Plugins.Messenger;
 
 namespace AlzaMobile.Core
 {
@@ -20,7 +21,7 @@ namespace AlzaMobile.Core
 
             Mvx.RegisterSingleton<ILoginRepository>(() => new LoginRepository());
             Mvx.RegisterSingleton<IUserDialogs>(() => UserDialogs.Instance);
-
+            Mvx.LazyConstructAndRegisterSingleton<IMvxMessenger, MvxMessengerHub>();
 
             RegisterAppStart(new AlzaChatAppStart());
         }
@@ -30,6 +31,9 @@ namespace AlzaMobile.Core
     {
         public void Start(object hint = null)
         {
+
+            //ShowViewModel<ChatViewModel>();
+
             if (string.IsNullOrEmpty(Settings.CurrentToken))
                 ShowViewModel<AuthorizationViewModel>();
             else

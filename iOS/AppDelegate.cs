@@ -36,7 +36,7 @@ namespace AlzaMobile.iOS
 
             Window.MakeKeyAndVisible();
 
-
+            KeyboardOverlap.Forms.Plugin.iOSUnified.KeyboardOverlapRenderer.Init();
             return true;
         }
     }

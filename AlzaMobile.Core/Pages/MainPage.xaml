@@ -28,13 +28,38 @@
 	<ContentPage.Content>
         <Grid>
 
-            <!--chat-->
-            <StackLayout>
-
+            <!--open chat-->
+            <StackLayout
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand">
+                <ListView
+                    ItemsSource="{Binding OpenChats}"
+                    HorizontalOptions="FillAndExpand"
+                    SeparatorVisibility="None"
+                    ItemTapped="Handle_ItemTapped"
+                    VerticalOptions="FillAndExpand">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout 
+                                    Orientation="Horizontal"
+                                    BackgroundColor="Silver">
+                                    <Label 
+                                        Text="+"
+                                        FontSize="20"/>
+                                    <Label 
+                                        Text="{Binding .}"
+                                        FontSize="12"/>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
 
             <!--stub-->
             <StackLayout
+                BackgroundColor="White"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
                 IsVisible="{Binding IsHaveChat, Converter={StaticResource invertedBoolConverter}}">

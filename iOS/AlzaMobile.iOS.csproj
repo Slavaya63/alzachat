@@ -265,6 +265,12 @@
     <Reference Include="FormsPlugin.Iconize.iOS">
       <HintPath>..\packages\Xam.FormsPlugin.Iconize.1.5.0.13-beta\lib\Xamarin.iOS10\FormsPlugin.Iconize.iOS.dll</HintPath>
     </Reference>
+    <Reference Include="KeyboardOverlap.Forms.Plugin.iOSUnified">
+      <HintPath>..\packages\Xam.Plugins.Forms.KeyboardOverlap.1.0.0.4\lib\Xamarin.iOS10\KeyboardOverlap.Forms.Plugin.iOSUnified.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmCross.Plugins.Messenger">
+      <HintPath>..\packages\MvvmCross.Plugin.Messenger.5.6.3\lib\Xamarin.iOS10\MvvmCross.Plugins.Messenger.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
@@ -291,6 +297,7 @@
     <Compile Include="DebugTrace.cs" />
     <Compile Include="CustomRenderers\RoundedEntryIOSRenderer.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Bootstrap\MessengerPluginBootstrap.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlzaMobile.Core\AlzaMobile.Core.csproj">
